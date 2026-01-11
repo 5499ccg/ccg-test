@@ -1,0 +1,22 @@
+{
+  "level1": {
+    "tags": ["tag1", "tag2"],
+    "age": 30,
+    "active": true,
+    "level2": {
+      "verified": true,
+      "city": "Beijing",
+      "score": 95.5,
+      "level3": {
+        "price": 19.99,
+        "status": "active",
+        "enabled": true,
+        "count": 42,
+        "items": ["item1", "item2"]
+      },
+      "zipCode": 100001
+    },
+    "name": "John",
+    "balance": 1234.56
+  }
+}

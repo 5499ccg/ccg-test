@@ -1,0 +1,23 @@
+{
+  "stringField": "Hello World",
+  "integerField": 42,
+  "floatField": 3.14,
+  "booleanField": true,
+  "nullField": null,
+  "arrayField": [
+    "item1",
+    123,
+    true,
+    null,
+    {
+      "nested": "value"
+    }
+  ],
+  "objectField": {
+    "nestedString": "nested value",
+    "nestedNumber": 99,
+    "nestedBoolean": false
+  },
+  "emptyArray": [],
+  "emptyObject": {}
+}

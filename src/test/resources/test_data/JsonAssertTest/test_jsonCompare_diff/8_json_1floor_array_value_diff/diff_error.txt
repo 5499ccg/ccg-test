@@ -1,0 +1,1 @@
+check  fail: expect type STRING, actual type BOOLEAN expected [[ 1, "aaa", true ]] but found [[ 1, true, "aaa" ]]

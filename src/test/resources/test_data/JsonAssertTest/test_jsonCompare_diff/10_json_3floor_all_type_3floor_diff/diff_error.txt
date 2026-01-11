@@ -1,0 +1,43 @@
+check level1.level2.level3.status fail: expect "active", actual "inactive" expected [{
+  "level1" : {
+    "active" : true,
+    "age" : 30,
+    "balance" : 1234.56,
+    "level2" : {
+      "city" : "Beijing",
+      "level3" : {
+        "count" : 42,
+        "enabled" : true,
+        "items" : [ "item1", "item2" ],
+        "price" : 19.99,
+        "status" : "active"
+      },
+      "score" : 95.5,
+      "verified" : true,
+      "zipCode" : 100001
+    },
+    "name" : "John",
+    "tags" : [ "tag1", "tag2" ]
+  }
+}] but found [{
+  "level1" : {
+    "active" : true,
+    "age" : 30,
+    "balance" : 1234.56,
+    "level2" : {
+      "city" : "Beijing",
+      "level3" : {
+        "count" : 42,
+        "enabled" : true,
+        "items" : [ "item1", "item2" ],
+        "price" : 19.99,
+        "status" : "inactive"
+      },
+      "score" : 95.5,
+      "verified" : true,
+      "zipCode" : 100001
+    },
+    "name" : "John",
+    "tags" : [ "tag1", "tag2" ]
+  }
+}]
