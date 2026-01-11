@@ -1,0 +1,15 @@
+{
+  "id": 1001,
+  "name": "张三",
+  "age": 25,
+  "salary": 8500.50,
+  "isActive": true,
+  "department": "IT",
+  "skills": ["Java", "Python"],
+  "address": {
+    "city": "北京",
+    "zipCode": 100001
+  },
+  "joinDate": "2023-01-15",
+  "remark": null
+}
