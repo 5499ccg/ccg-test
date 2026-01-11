@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.ccg.test</groupId>
+    <groupId>github.ccg</groupId>
     <artifactId>ccg-test</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -48,8 +49,61 @@
             <version>6.14.3</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
+
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>ccg-test</name>
+            <url>https://maven.pkg.github.com/5499ccg/ccg-test</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <!--用于编译Java源代码。该插件允许你在Maven项目中定义和配置Java编译的行为，包括源代码版本、目标字节码版本等-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+            </plugin>
+
+            <!--用于编译Java源代码。该插件允许你在Maven项目中定义和配置Java编译的行为，包括源代码版本、目标字节码版本等-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <target>1.8</target>
+                    <source>1.8</source>
+                    <!--排除文件-->
+                    <excludes>
+                        <exclude>
+                            <!--此处是为了排除启动项（根据自己的需求改动）-->
+                            cn/dujy/mybatis/SpringbootDomeApplication.java
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--用于生成并管理项目的源代码（通常是Java源代码）和附带的源代码JAR文件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
 
 </project>
