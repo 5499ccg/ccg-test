@@ -46,6 +46,14 @@ public class FileTools {
         return fullPath;
     }
 
+    public static String readFileToString(String path, Map<String, String> param) throws IOException {
+        String s = readFileToString(path);
+        for (Map.Entry<String, String> entry : param.entrySet()) {
+            s = s.replaceAll("#\\{\\{" + entry.getKey() + "}}", entry.getValue());
+        }
+        return s;
+    }
+
     /**
      * 读取文件内容为字符串
      *

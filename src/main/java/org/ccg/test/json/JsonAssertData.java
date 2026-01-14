@@ -40,6 +40,11 @@ public class JsonAssertData {
         return failMessage;
     }
 
+    public void checkReSet() {
+        isFail = false;
+        this.failMessage = null;
+    }
+
     public void toFail(String failMessage) {
         isFail = true;
         this.failMessage = failMessage;

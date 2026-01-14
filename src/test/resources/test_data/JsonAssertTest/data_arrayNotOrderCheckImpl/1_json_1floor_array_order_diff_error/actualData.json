@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1001,
+      "name": "张三",
+      "age": 25,
+      "salary": 8500.50,
+      "isActive": true,
+      "department": "IT",
+      "skills": ["Java", "Python"],
+      "address": {
+        "city": "北京",
+        "zipCode": 100001
+      },
+      "joinDate": "2023-01-15",
+      "remark": null
+    },
+    {
+      "id": 1002,
+      "name": "李四",
+      "age": 30,
+      "salary": 9200.00,
+      "isActive": false,
+      "department": "HR",
+      "skills": ["Recruitment", "Training"],
+      "address": {
+        "city": "上海",
+        "zipCode": 200001
+      },
+      "joinDate": "2022-08-20",
+      "remark": "优秀员工"
+    }
+]
+

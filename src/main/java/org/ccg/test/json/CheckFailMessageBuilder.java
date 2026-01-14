@@ -13,6 +13,12 @@ public class CheckFailMessageBuilder {
                 .append(actualNode);
         return sb.toString();
     }
+    public static String fail(String prefixKey) {
+        StringBuilder sb = new StringBuilder("check ");
+        sb.append(prefixKey)
+                .append(" fail");
+        return sb.toString();
+    }
 
     public static String failForType(String prefixKey, JsonNode expectNode, JsonNode actualNode) {
         StringBuilder sb = new StringBuilder("check ");

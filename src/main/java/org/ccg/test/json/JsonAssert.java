@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import org.ccg.test.json.check.ArrayNotOrderCheck;
 import org.ccg.test.json.check.defaults.BooleanCheck;
 import org.ccg.test.json.check.defaults.NumberCheck;
 import org.ccg.test.json.check.defaults.StringCheck;
@@ -32,8 +33,11 @@ public class JsonAssert {
         JSON_NODE_TYPE_CHECK_MAP.put(JsonNodeType.BOOLEAN, new BooleanCheck());
     }
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    // 这里public允许客户自己修改一些属性
+    public static final ObjectMapper objectMapper = new ObjectMapper();
     static {
+        // 时区跟随系统
+        objectMapper.setTimeZone(TimeZone.getDefault());
         objectMapper.configure(com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
         objectMapper.configure(com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
         objectMapper.configure(com.fasterxml.jackson.core.JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS, false);
@@ -78,7 +82,7 @@ public class JsonAssert {
             jsonAssertData.toFail("expect or actual is null!");
         } else {
             // 开始递归校验
-            nodesEqual(jsonAssertData, "", expectedNode, actualNode);
+            nodesEqual(jsonAssertData, "", expectedNode, actualNode, false);
         }
 
         if (jsonAssertData.isFail()) {
@@ -99,13 +103,18 @@ public class JsonAssert {
      * 1.== null 和 type is null是不一样的，相当与一个存在key但值为null，一个连key都不存在的，这种场景要进入校验器处理
      * 2.expectedNode和actualNode都is null，也不能直接认为相等，因为有些场景我们使用自定义校验器处理，期望是当前时间
      */
-    private static void nodesEqual(JsonAssertData jsonAssertData, String prefixKey,
-                                   @Nullable JsonNode expectedNode, @Nullable JsonNode actualNode) {
+    public static void nodesEqual(JsonAssertData jsonAssertData, String prefixKey,
+                                   @Nullable JsonNode expectedNode, @Nullable JsonNode actualNode, boolean preIsArray) {
         // 1.优先走自定义检器，如果存在多个，必须全部过
         List<Check> checkListByKey = jsonAssertData.getCheckListByKey(prefixKey);
-        if (checkListByKey != null && !checkListByKey.isEmpty()) {
+        if (checkListByKey != null && !checkListByKey.isEmpty() && !preIsArray) {
             for (Check check : checkListByKey) {
-                if (!check.doCheck(expectedNode, actualNode)) {
+                if (check instanceof ArrayNotOrderCheck) {
+                    check.doCheck(jsonAssertData, prefixKey, expectedNode, actualNode);
+                    if (jsonAssertData.isFail()) {
+                        break;
+                    }
+                } else if (!check.doCheck(expectedNode, actualNode)) {
                     jsonAssertData.toFail(CheckFailMessageBuilder.fail(prefixKey, expectedNode, actualNode));
                     break;
                 }
@@ -185,7 +194,7 @@ public class JsonAssert {
             JsonNode expect =  expectON.get(key);
             JsonNode actual =  actualON.get(key);
             String newPrefixKey = prefixKeyAdd(prefixKey, key);
-            nodesEqual(jsonAssertData, newPrefixKey, expect, actual);
+            nodesEqual(jsonAssertData, newPrefixKey, expect, actual, false);
             if (jsonAssertData.isFail()) {
                 return;
             }
@@ -204,7 +213,7 @@ public class JsonAssert {
         }
         // 数组内元素校验，严格按顺序校验
         for (int i = 0; i < expectArr.size(); i++) {
-            nodesEqual(jsonAssertData, prefixKey, expectArr.get(i), actualArr.get(i));
+            nodesEqual(jsonAssertData, prefixKey, expectArr.get(i), actualArr.get(i), true);
             if (jsonAssertData.isFail()) {
                 return;
             }
