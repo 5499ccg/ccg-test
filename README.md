@@ -22,13 +22,15 @@
 - **对象校验**: 递归比较对象属性
 
 ### 2. 自定义校验器
-- **[IgnoreCheck](src\main\java\org\ccg\test\json\check\IgnoreCheck.java#L11-L50)**: 忽略指定字段的校验
-- **[TimeCheckNow](src\main\java\org\ccg\test\json\check\TimeCheckNow.java#L11-L36)**: 时间字段与当前时间比较
-- **[RegexCheck](src\main\java\org\ccg\test\json\check\RegexCheck.java#L11-L40)**: 正则表达式校验
-- **[TimeCheck](src\main\java\org\ccg\test\json\check\TimeCheck.java#L12-L64)**: 多格式时间校验
-- **[ArrayNotOrder](src\main\java\org\ccg\test\json\check\ArrayNotOrder.java#L11-L33)**: 数组无序校验
+- **[IgnoreCheck.java](src/main/java/org/ccg/test/json/check/IgnoreCheck.java)**: 忽略指定字段的校验
+- **[RegexCheck.java](src/main/java/org/ccg/test/json/check/RegexCheck.java)**: 正则表达式校验
+- **[TimeCheckNow.java](src/main/java/org/ccg/test/json/check/TimeCheckNow.java)**: 时间字段与当前时间比较
+- **[TimeCheck.java](src/main/java/org/ccg/test/json/check/TimeCheck.java)**: 多格式时间校验
+- **[ArrayNotOrderCheck.java](src/main/java/org/ccg/test/json/check/ArrayNotOrderCheck.java)**: 数组无序校验
 
 ### 3. 使用示例
+[JsonAssertTest.java](src/test/java/org/ccg/test/json/JsonAssertTest.java)
+
 
 #### 基础校验
 ```java
