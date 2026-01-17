@@ -22,10 +22,11 @@
 - **对象校验**: 递归比较对象属性
 
 ### 2. 自定义校验器
-- **[IgnoreCheck](file://D:\code\IdeaProjects\testccg\src\main\java\org\ccg\test\json\check\IgnoreCheck.java#L11-L50)**: 忽略指定字段的校验
-- **[TimeCheckNow](file://D:\code\IdeaProjects\testccg\src\main\java\org\ccg\test\json\check\TimeCheckNow.java#L11-L36)**: 时间字段与当前时间比较
-- **[RegexCheck](file://D:\code\IdeaProjects\testccg\src\main\java\org\ccg\test\json\check\RegexCheck.java#L11-L40)**: 正则表达式校验
-- **[TimeCheck](file://D:\code\IdeaProjects\testccg\src\main\java\org\ccg\test\json\check\TimeCheck.java#L12-L64)**: 多格式时间校验
+- **[IgnoreCheck](src\main\java\org\ccg\test\json\check\IgnoreCheck.java#L11-L50)**: 忽略指定字段的校验
+- **[TimeCheckNow](src\main\java\org\ccg\test\json\check\TimeCheckNow.java#L11-L36)**: 时间字段与当前时间比较
+- **[RegexCheck](src\main\java\org\ccg\test\json\check\RegexCheck.java#L11-L40)**: 正则表达式校验
+- **[TimeCheck](src\main\java\org\ccg\test\json\check\TimeCheck.java#L12-L64)**: 多格式时间校验
+- **[ArrayNotOrder](src\main\java\org\ccg\test\json\check\ArrayNotOrder.java#L11-L33)**: 数组无序校验
 
 ### 3. 使用示例
 
@@ -53,6 +54,12 @@ JsonAssert.assertJsonEquals(expectedJson, actualJson, "校验描述", timeNow);
 ```java
 Check regexCheck = Check.regex("^\\d{4}$", "id");
 JsonAssert.assertJsonEquals(expectedJson, actualJson, "校验描述", regexCheck);
+```
+
+#### 数组无序校验
+```java
+Check arrayNotOrderCheck = Check.arrayNotOrder("datas");
+JsonAssert.assertJsonEquals(expectedJson, actualJson, "校验描述", arrayNotOrderCheck);
 ```
 
 
