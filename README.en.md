@@ -1,4 +1,5 @@
 # JSON Validation Tool Library README
+[中文](README.md)
 
 ## Introduction
 If it helps you, please give me a star!
