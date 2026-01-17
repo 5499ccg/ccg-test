@@ -1,0 +1,85 @@
+check skills fail: expect "Java", actual "Recruitment" expected [[ {
+  "address" : {
+    "city" : "北京",
+    "zipCode" : 100001
+  },
+  "age" : 25,
+  "department" : "IT",
+  "id" : 1001,
+  "isActive" : true,
+  "joinDate" : "2023-01-15",
+  "name" : "张三",
+  "remark" : null,
+  "salary" : 8500.5,
+  "skills" : [ "Java", "Python" ]
+}, {
+  "address" : {
+    "city" : "北京",
+    "zipCode" : 100001
+  },
+  "age" : 25,
+  "department" : "IT",
+  "id" : 1001,
+  "isActive" : true,
+  "joinDate" : "2023-01-15",
+  "name" : "张三",
+  "remark" : null,
+  "salary" : 8500.5,
+  "skills" : [ "Java", "Python" ]
+}, {
+  "address" : {
+    "city" : "上海",
+    "zipCode" : 200001
+  },
+  "age" : 30,
+  "department" : "HR",
+  "id" : 1002,
+  "isActive" : false,
+  "joinDate" : "2022-08-20",
+  "name" : "李四",
+  "remark" : "优秀员工",
+  "salary" : 9200.0,
+  "skills" : [ "Recruitment", "Training" ]
+} ]] but found [[ {
+  "address" : {
+    "city" : "上海",
+    "zipCode" : 200001
+  },
+  "age" : 30,
+  "department" : "HR",
+  "id" : 1002,
+  "isActive" : false,
+  "joinDate" : "2022-08-20",
+  "name" : "李四",
+  "remark" : "优秀员工",
+  "salary" : 9200.0,
+  "skills" : [ "Recruitment", "Training" ]
+}, {
+  "address" : {
+    "city" : "上海",
+    "zipCode" : 200001
+  },
+  "age" : 30,
+  "department" : "HR",
+  "id" : 1002,
+  "isActive" : false,
+  "joinDate" : "2022-08-20",
+  "name" : "李四",
+  "remark" : "优秀员工",
+  "salary" : 9200.0,
+  "skills" : [ "Recruitment", "Training" ]
+}, {
+  "address" : {
+    "city" : "北京",
+    "zipCode" : 100001
+  },
+  "age" : 25,
+  "department" : "IT",
+  "id" : 1001,
+  "isActive" : true,
+  "joinDate" : "2023-01-15",
+  "name" : "张三",
+  "remark" : null,
+  "salary" : 8500.5,
+  "skills" : [ "Java", "Python" ]
+} ]]

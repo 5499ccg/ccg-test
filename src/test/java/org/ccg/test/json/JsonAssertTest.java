@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.*;
 
 public class JsonAssertTest extends TestBase {
@@ -72,6 +73,8 @@ public class JsonAssertTest extends TestBase {
                 {"5.json两层，id差异,使用正则表达式校验，校验通过", "5_json_2floor_id_regexCheck_pass", true},
                 {"6.json两层，id差异,使用正则表达式校验，校验不通过", "6_json_2floor_id_regexCheck_error", false},
                 {"7.json两层，id和joinDate差异，一起忽略", "7_json_2floor_id_and_joinDate_ignore", true},
+                {"8.json一层，id存在差异，忽略校验", "8_json_1floor_diff_and_ignore", true},
+
         };
     }
 
@@ -80,14 +83,19 @@ public class JsonAssertTest extends TestBase {
         logger.info("test_jsonCompare_checkImpl test start: {}, {}.", comment, testNo);
         Map<String, String> params = new HashMap<>();
         params.put("nowDate", DateParseUtil.formatDateToStandard(new Date()));
+        // 1.获取需要校验的json
         String expectedJson = FileTools.readAsStringByPathAndStack(testNo + "/expectData.json");
         String actualJson = FileTools.readAsStringByPathAndStack(testNo + "/actualData.json", params);
         List<Check> checks = new ArrayList<>();
-        // 忽略id
+        // 2.设置字段自定义校验器，这里忽略id
         checks.add(testNo.contains("id_and_joinDate_ignore") ? Check.ignore("datas.id", "datas.joinDate") : Check.ignore("datas.id"));
         if (testNo.contains("compareToNow")) {
             checks.add(Check.timeNow("datas.joinDate"));
         }
+        if (testNo.contains("8_json_1floor_diff_and_ignore")) {
+            checks.add(Check.ignore("id"));
+        }
+        // 这里是正则表达式
         if (testNo.contains("regexCheck")) {
             if (pass) {
                 checks.add(Check.regex("^\\d{4}$", "datas.id"));
@@ -96,6 +104,7 @@ public class JsonAssertTest extends TestBase {
             }
         }
         try {
+            // 开始校验
             JsonAssert.assertJsonEquals(expectedJson, actualJson, comment, checks.toArray(new Check[0]));
             if (!pass) {
                 Assert.fail(comment);
@@ -107,8 +116,55 @@ public class JsonAssertTest extends TestBase {
                 String expectMessage = FileTools.readAsStringByPathAndStack(testNo + "/diff_error.txt");
                 Assert.assertEquals(message, expectMessage, comment);
 //            throw e;
+            } else {
+                throw e;
             }
         }
     }
+    @DataProvider(name = "data_arrayNotOrderCheckImpl")
+    public Object[][] data_arrayNotOrderCheckImpl() {
+        return new Object[][]{
+                {"1.json一层数组，先忽略ID，顺序不一致，检验不一致", "1_json_1floor_array_order_diff_error", false},
+                {"2.json一层数组，先忽略ID，顺序不一致，忽略顺序", "2_json_1floor_array_order_diff_ignore_pass", true},
+                {"3.json两层数组，先忽略ID，顺序不一致，检验不一致", "3_json_2floor_array_order_diff_error", false},
+                {"4.json两层数组，先忽略ID，顺序不一致，忽略顺序", "4_json_2floor_array_order_diff_ignore_pass", true},
 
+                {"5.json一层数组，先忽略ID，数组存在重复但不一致，忽略顺序仍然检查出来", "5_json_1floor_array_order_diff_ignore_error", false},
+                {"6.json两层数组，先忽略ID，数组存在重复但不一致，忽略顺序仍然检查出来", "6_json_2floor_array_order_diff_ignore_error", false},
+
+
+        };
+    }
+
+    @Test(dataProvider = "data_arrayNotOrderCheckImpl")
+    public void data_arrayNotOrderCheckImpl(String comment, String testNo, boolean pass) throws Exception {
+        // 1.获取需要校验的json
+        String expectedJson = FileTools.readAsStringByPathAndStack(testNo + "/expectData.json");
+        String actualJson = FileTools.readAsStringByPathAndStack(testNo + "/actualData.json");
+        List<Check> checks = new ArrayList<>();
+        checks.add(Check.ignore("id", "datas.id"));
+        if (testNo.contains("1floor") && testNo.contains("array_order_diff_ignore")) {
+            checks.add(Check.arrayNotOrder(""));
+        }
+        if (testNo.contains("2floor") && testNo.contains("array_order_diff_ignore")) {
+            checks.add(Check.arrayNotOrder("datas"));
+        }
+        try {
+            // 开始校验
+            JsonAssert.assertJsonEquals(expectedJson, actualJson, comment, checks.toArray(new Check[0]));
+            if (!pass) {
+                Assert.fail(comment);
+            }
+        } catch (AssertionError e) {
+            if (!pass) {
+                String message = e.getMessage();
+                logger.error(e);
+                String expectMessage = FileTools.readAsStringByPathAndStack(testNo + "/diff_error.txt");
+                Assert.assertEquals(message, expectMessage, comment);
+//                throw e;
+            } else {
+                throw e;
+            }
+        }
+    }
 }
